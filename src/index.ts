@@ -1,16 +1,15 @@
 import fastify, {FastifyInstance, FastifyReply, FastifyRequest} from 'fastify';
 import {createReadStream} from 'node:fs';
-import {stat} from 'node:fs/promises';
 import {basename} from 'node:path';
 import {testPdfFilePath} from './file-paths.js';
 
 const server: FastifyInstance = fastify();
 
 server.get('/file', async (request: FastifyRequest, reply: FastifyReply) => {
-    const stats = await stat(testPdfFilePath);
+    // const stats = await stat(testPdfFilePath);
 
     reply.header('Content-Type', 'application/pdf');
-    reply.header('Content-Length', stats.size);
+    // reply.header('Content-Length', stats.size);
     reply.header('Content-Disposition', `inline; filename="${basename(testPdfFilePath)}"`);
     const stream = createReadStream(testPdfFilePath);
     stream.on('error', (err) => {
